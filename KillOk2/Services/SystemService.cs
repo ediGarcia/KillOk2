@@ -103,43 +103,33 @@ public static class SystemService
                     if (GetClassName(hWnd, dialogClass, dialogClass.Capacity) <= 0
                         || dialogClass.ToString() != DialogClass)
                     {
-#if DEBUG
                         RegisterIgnoredDialog(hWnd, "Dialog ignored: Not a dialog.");
-#endif
                         return true;
                     }
 
                     if (!IsWindowVisible(hWnd))
                     {
-#if DEBUG
                         RegisterIgnoredDialog(hWnd, "Dialog ignored: Not a visible window/dialog.");
-#endif
                         return true;
                     }
 
                     if (IsOpenSaveDialog(hWnd))
                     {
-#if DEBUG
                         RegisterIgnoredDialog(hWnd, "Dialog ignored: Open/Save dialog.");
-#endif
                         return true;
                     }
 
                     DialogType dialogType = GetDialogType(hWnd);
                     if (dialogType == DialogType.Question)
                     {
-#if DEBUG
                         RegisterIgnoredDialog(hWnd, "Dialog ignored: Question dialog.");
-#endif
                         return true;
                     }
 
                     (ownerProcessId, ownerProcessName, BitmapSource ownerProcessIcon) = GetOwnerProcessData(hWnd);
                     if (ownerProcessName == null || CriticalProcesses.Contains(ownerProcessName))
                     {
-#if DEBUG
                         RegisterIgnoredDialog(hWnd, "Dialog ignored: Critical process.");
-#endif
                         return true;
                     }
 
@@ -147,18 +137,14 @@ public static class SystemService
                     GetWindowText(hWnd, dialogTitle, dialogTitle.Capacity);
                     if (dialogTitle.Length == 0)
                     {
-#if DEBUG
                         RegisterIgnoredDialog(hWnd, "Dialog ignored: No title.");
-#endif
                         return true;
                     }
 
                     string dialogMessage = GetDialogMessage(hWnd);
                     if (dialogMessage.IsNullOrEmpty())
                     {
-#if DEBUG
                         RegisterIgnoredDialog(hWnd, "Dialog ignored: No message.");
-#endif
                         return true;
                     }
 
@@ -273,11 +259,20 @@ public static class SystemService
     || FindWindowEx(hWnd, IntPtr.Zero, ToolbarClass, null) != IntPtr.Zero; // Checks if the dialog contains a toolbar control.
     #endregion
 
+    #region RegisterIgnoredDialog
+    /// <summary>
+    /// Registers the specified dialog.
+    /// </summary>
+    /// <param name="hWnd"></param>
+    /// <param name="reason"></param>
     private static void RegisterIgnoredDialog(IntPtr hWnd, string reason)
     {
         DialogsToIgnore[hWnd] = DateTime.Now;
+#if DEBUG
         Debug.WriteLine($"{DateTime.Now:HH:mm:ss} - Dialog ignored: {reason}");
+#endif
     }
+    #endregion
 
     #endregion
 }
