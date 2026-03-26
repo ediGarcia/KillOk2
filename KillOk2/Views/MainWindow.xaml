@@ -201,7 +201,7 @@
 
                             <Border
                                 CornerRadius="{StaticResource DefaultCornerRadius}"
-                                Margin="10"
+                                Margin="10, 10, 10, 0"
                                 Padding=" 10, 5"
                                 UseLayoutRounding="True">
                                 <Border.Style>
