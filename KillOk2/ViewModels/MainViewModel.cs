@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using HelperExtensions;
 using KillOk2.Services;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows.Threading;
 
 namespace KillOk2.ViewModels;
@@ -52,8 +51,11 @@ public partial class MainViewModel : ObservableObject
     /// Clears the closed dialog list.
     /// </summary>
     [RelayCommand(CanExecute = nameof(CanClear))]
-    private void ClearDialogs() =>
+    private void ClearDialogs()
+    {
         ClosedDialogs.Clear();
+        ClearDialogsCommand.NotifyCanExecuteChanged();
+    }
     #endregion
 
     #region Timer_Tick
@@ -85,7 +87,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"{DateTime.Now:HH:mm:ss} - Error closing dialogs: {ex.Message}");
+            LoggerService.WriteDebugLine($"Error closing dialogs: {ex.Message}.");
         }
 
         _isBusy = false;

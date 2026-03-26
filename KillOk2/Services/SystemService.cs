@@ -87,12 +87,7 @@ public static class SystemService
         EnumWindows((hWnd, _) =>
             {
                 if (DialogsToIgnore.ContainsKey(hWnd))
-                {
-#if DEBUG
-                    Debug.WriteLine($"{DateTime.Now:HH:mm:ss} - Dialog ignored: ignore list.");
-#endif
                     return true;
-                }
 
                 int ownerProcessId = 0;
                 string? ownerProcessName = null;
@@ -103,33 +98,33 @@ public static class SystemService
                     if (GetClassName(hWnd, dialogClass, dialogClass.Capacity) <= 0
                         || dialogClass.ToString() != DialogClass)
                     {
-                        RegisterIgnoredDialog(hWnd, "Dialog ignored: Not a dialog.");
+                        RegisterIgnoredDialog(hWnd, "Not a dialog.");
                         return true;
                     }
 
                     if (!IsWindowVisible(hWnd))
                     {
-                        RegisterIgnoredDialog(hWnd, "Dialog ignored: Not a visible window/dialog.");
+                        RegisterIgnoredDialog(hWnd, "Not a visible window/dialog.");
                         return true;
                     }
 
                     if (IsOpenSaveDialog(hWnd))
                     {
-                        RegisterIgnoredDialog(hWnd, "Dialog ignored: Open/Save dialog.");
+                        RegisterIgnoredDialog(hWnd, "Open/Save dialog.");
                         return true;
                     }
 
                     DialogType dialogType = GetDialogType(hWnd);
                     if (dialogType == DialogType.Question)
                     {
-                        RegisterIgnoredDialog(hWnd, "Dialog ignored: Question dialog.");
+                        RegisterIgnoredDialog(hWnd, "Question dialog.");
                         return true;
                     }
 
                     (ownerProcessId, ownerProcessName, BitmapSource ownerProcessIcon) = GetOwnerProcessData(hWnd);
                     if (ownerProcessName == null || CriticalProcesses.Contains(ownerProcessName))
                     {
-                        RegisterIgnoredDialog(hWnd, "Dialog ignored: Critical process.");
+                        RegisterIgnoredDialog(hWnd, "Critical process.");
                         return true;
                     }
 
@@ -137,14 +132,14 @@ public static class SystemService
                     GetWindowText(hWnd, dialogTitle, dialogTitle.Capacity);
                     if (dialogTitle.Length == 0)
                     {
-                        RegisterIgnoredDialog(hWnd, "Dialog ignored: No title.");
+                        RegisterIgnoredDialog(hWnd, "No title.");
                         return true;
                     }
 
                     string dialogMessage = GetDialogMessage(hWnd);
                     if (dialogMessage.IsNullOrEmpty())
                     {
-                        RegisterIgnoredDialog(hWnd, "Dialog ignored: No message.");
+                        RegisterIgnoredDialog(hWnd, "No message.");
                         return true;
                     }
 
@@ -162,7 +157,7 @@ public static class SystemService
                 }
                 catch (Exception ex)
                 {
-                    RegisterIgnoredDialog(hWnd, $"Dialog ignored: {ownerProcessName} ({ownerProcessId}) -> {ex.Message}");
+                    LoggerService.WriteDebugLine($"Dialog ignored: {ownerProcessName} ({ownerProcessId}) -> {ex.Message}");
                 }
 
                 return true;
@@ -268,11 +263,9 @@ public static class SystemService
     private static void RegisterIgnoredDialog(IntPtr hWnd, string reason)
     {
         DialogsToIgnore[hWnd] = DateTime.Now;
-#if DEBUG
-        Debug.WriteLine($"{DateTime.Now:HH:mm:ss} - Dialog ignored: {reason}");
-#endif
+        LoggerService.WriteDebugLine($"Dialog ignored: {reason}");
     }
-    #endregion
+#endregion
 
-    #endregion
+#endregion
 }
