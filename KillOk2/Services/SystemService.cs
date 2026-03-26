@@ -58,7 +58,7 @@ public static class SystemService
     private const int GwlStyle = -16;
     private const int IdIcon = 0x14;
     private static readonly IntPtr InformationIcon = LoadIcon(IntPtr.Zero, 0x7F04);
-    private static readonly TimeSpan IgnoreTime = TimeSpan.FromMinutes(5);
+    private static readonly TimeSpan IgnoreTime = TimeSpan.FromMinutes(2);
     private const string OpenSaveDialogClass = "DirectUIHWND";
     private static readonly IntPtr QuestionIcon = LoadIcon(IntPtr.Zero, 0x7F02);
     private const string StaticClass = "Static";
