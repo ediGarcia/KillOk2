@@ -3,6 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="/Views/MainWindow.xaml">
     <Application.Resources>
+        <BooleanToVisibilityConverter
+            x:Key="BooleanToVisibilityConverter" />
+
         <CornerRadius x:Key="DefaultCornerRadius">
             5
         </CornerRadius>
@@ -11,6 +14,10 @@
             Direction="-45"
             Opacity=".5"
             ShadowDepth="1" />
+
+        <SolidColorBrush x:Key="AccentBrush">
+            #4299EC
+        </SolidColorBrush>
 
         <Style TargetType="Button">
             <Setter
@@ -67,6 +74,19 @@
 
             <Style.Triggers>
                 <Trigger
+                    Property="IsEnabled"
+                    Value="False">
+                    <Setter
+                        Property="Background"
+                        Value="LightGray" />
+                    <Setter
+                        Property="Effect"
+                        Value="{x:Null}" />
+                    <Setter
+                        Property="Foreground"
+                        Value="Black" />
+                </Trigger>
+                <Trigger
                     Property="IsMouseOver"
                     Value="True">
                     <Setter
@@ -103,6 +123,145 @@
                             </LinearGradientBrush>
                         </Setter.Value>
                     </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="CheckBox">
+            <Setter
+                Property="Background"
+                Value="{StaticResource AccentBrush}" />
+            <Setter
+                Property="BorderBrush"
+                Value="DarkGray" />
+            <Setter
+                Property="Template">
+                <Setter.Value>
+                    <ControlTemplate
+                        TargetType="CheckBox">
+                        <ControlTemplate.Triggers>
+                            <EventTrigger
+                                RoutedEvent="CheckBox.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard
+                                        TargetName="SctChecked">
+                                        <DoubleAnimation
+                                            DecelerationRatio="1"
+                                            Duration="00:00:00.250"
+                                            To="1"
+                                            Storyboard.TargetProperty="ScaleX" />
+                                        <DoubleAnimation
+                                            DecelerationRatio="1"
+                                            Duration="00:00:00.250"
+                                            To="1"
+                                            Storyboard.TargetProperty="ScaleY" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <EventTrigger
+                                RoutedEvent="CheckBox.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard
+                                        TargetName="SctChecked">
+                                        <DoubleAnimation
+                                            DecelerationRatio="1"
+                                            Duration="00:00:00.250"
+                                            To="0"
+                                            Storyboard.TargetProperty="ScaleX" />
+                                        <DoubleAnimation
+                                            DecelerationRatio="1"
+                                            Duration="00:00:00.250"
+                                            To="0"
+                                            Storyboard.TargetProperty="ScaleY" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Border
+                                Grid.Column="0"
+                                Background="White"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2"
+                                Margin="0, 0, 5, 0"
+                                Height="20"
+                                Width="20"
+                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                                <Border.Style>
+                                    <Style
+                                        TargetType="Border">
+                                        <Setter
+                                            Property="Effect"
+                                            Value="{StaticResource DefaultDropShadow}" />
+
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType=CheckBox}}"
+                                                Value="True">
+                                                <Setter
+                                                    Property="Effect">
+                                                    <Setter.Value>
+                                                        <DropShadowEffect
+                                                            Direction="-45"
+                                                            Opacity=".8"
+                                                            ShadowDepth="1.5" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Border
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="2"
+                                    Height="12"
+                                    HorizontalAlignment="Center"
+                                    RenderTransformOrigin=".5, .5"
+                                    VerticalAlignment="Center"
+                                    Width="12">
+                                    <Border.RenderTransform>
+                                        <ScaleTransform
+                                            x:Name="SctChecked"
+                                            ScaleX="1"
+                                            ScaleY="1" />
+                                    </Border.RenderTransform>
+                                </Border>
+                            </Border>
+
+                            <ContentPresenter
+                                Grid.Column="1"
+                                Content="{TemplateBinding Content}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter
+                Property="UseLayoutRounding"
+                Value="True" />
+            <Setter
+                Property="VerticalAlignment"
+                Value="Center" />
+            <Setter
+                Property="VerticalContentAlignment"
+                Value="Center" />
+
+            <Style.Triggers>
+                <Trigger
+                    Property="IsMouseOver"
+                    Value="True">
+                    <Setter
+                        Property="BorderBrush"
+                        Value="{StaticResource AccentBrush}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
