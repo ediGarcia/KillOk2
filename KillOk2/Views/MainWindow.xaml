@@ -111,7 +111,7 @@
                                         CommandParameter="{Binding }"
                                         Content="{ui:SymbolIcon Delete16}"
                                         HorizontalAlignment="Right"
-                                        ToolTip="Remove process">
+                                        ToolTip="Remove filter">
                                     </ui:Button>
 
                                     <StackPanel
