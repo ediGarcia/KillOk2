@@ -203,7 +203,7 @@
                             Grid.Column="1"
                             CornerRadius="5"
                             Height="10"
-                            Margin="16, 0, 0, 0"
+                            Margin="10, 3, 0, 0"
                             RenderTransformOrigin=".5, .5"
                             Width="10">
                             <Border.RenderTransform>
