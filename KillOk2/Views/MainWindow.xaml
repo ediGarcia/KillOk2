@@ -63,6 +63,7 @@
 
                     <ui:TextBox
                         Grid.Column="0"
+                        PlaceholderText="Enter the search pattern"
                         Text="{Binding NewProcessName, UpdateSourceTrigger=PropertyChanged}">
                         <ui:TextBox.InputBindings>
                             <KeyBinding
@@ -75,7 +76,7 @@
                         Command="{Binding AddNewProcessCommand}"
                         Content="{ui:SymbolIcon Add16}"
                         Margin="5, 0, 0, 0"
-                        ToolTip="Add process" />
+                        ToolTip="Add filter" />
                 </Grid>
 
                 <!-- Filters list -->
