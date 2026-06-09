@@ -37,6 +37,7 @@ public partial class MainViewModel : ObservableObject
     /// Gets or sets the name of a new process to add to the filters list.
     /// </summary>
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(AddNewProcessCommand))]
     private string _newProcessName = String.Empty;
 
     /// <summary>
