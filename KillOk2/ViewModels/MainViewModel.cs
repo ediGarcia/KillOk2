@@ -78,7 +78,7 @@ public partial class MainViewModel : ObservableObject
         try
         {
             if (_systemService.LoadPersistedFilters() is { } filters)
-                ProcessesFilters.AddRange(filters.Select(_ => new ProcessFilterViewModel(_.ProcessSearchPattern)
+                ProcessesFilters.AddRange(filters.Select(_ => new ProcessFilterViewModel(_.ProcessName)
                 {
                     AcceptError = _.AcceptError,
                     AcceptInfo = _.AcceptInfo,
@@ -87,7 +87,7 @@ public partial class MainViewModel : ObservableObject
                     AcceptWarning = _.AcceptWarning
                 }));
             else
-                ProcessesFilters.Add(new("np*"));
+                ProcessesFilters.Add(new("npApp"));
         }
         catch (Exception ex)
         {

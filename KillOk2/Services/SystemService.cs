@@ -1,4 +1,5 @@
-﻿using HelperExtensions;
+﻿using System.Diagnostics;
+using HelperExtensions;
 using HelperMethods;
 using KillOk2.Models;
 using System.Runtime.InteropServices;
@@ -78,7 +79,7 @@ public class SystemService : ISystemService
 
     private const int GwlStyle = -16; //GWL_STYLE
     private const int SsTypeMask = 0x1F; // SS_TYPEMASK
-    private const int SsIcon = 0x3;   // SS_ICON: Static control displays an icon
+    private const int SsIcon = 0x3; // SS_ICON: Static control displays an icon
 
     // Standard system icon resource IDs
     private const int ErrorId = 32513; // IDI_ERROR
@@ -108,7 +109,7 @@ public class SystemService : ISystemService
         List<DialogInfo> closedDialogs = [];
         Dictionary<int, (ProcessFilter, string)> processes = [];
 
-        filters.ForEach(_ => SystemHelper.GetProcesses(_.ProcessSearchPattern).ForEach(__ => processes[__.Id] = (_, __.ProcessName)));
+        filters.ForEach(filter => Process.GetProcessesByName(filter.ProcessName).ForEach(process => processes[process.Id] = (filter, process.ProcessName)));
 
         EnumWindows(
             (hWnd, _) =>

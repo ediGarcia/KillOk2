@@ -1,7 +1,7 @@
 ﻿namespace KillOk2.Models;
 
 public record ProcessFilter(
-    string ProcessSearchPattern,
+    string ProcessName,
     bool AcceptInfo,
     bool AcceptQuestion,
     bool AcceptWarning,
