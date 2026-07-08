@@ -50,12 +50,15 @@ public partial class MainViewModel : ObservableObject
     private readonly ISystemService _systemService;
     private readonly DispatcherTimer _timer;
 
+    private ProcessFilter[]? _filter;
+
     public MainViewModel(ISystemService systemService)
     {
         ClosedDialogs.CollectionChanged += (_, _) => ClearClosedDialogsCommand.NotifyCanExecuteChanged();
 
         ProcessesFilters.CollectionChanged += (_, args) =>
         {
+            _filter = null;
             args.NewItems?.ForEach<ProcessFilterViewModel>(__ => __.PropertyChanged += ProcessInfo_OnPropertyChanged);
             args.OldItems?.ForEach<ProcessFilterViewModel>(__ => __.PropertyChanged -= ProcessInfo_OnPropertyChanged);
             NotifyToggleClosingDialogsCommand();
@@ -249,7 +252,6 @@ public partial class MainViewModel : ObservableObject
     #endregion
 
     #region ToggleClosingDialogs
-
     /// <summary>
     /// Starts the process of closing dialogs if it is not currently running, or stops it if it is currently running.
     /// </summary>
@@ -259,7 +261,6 @@ public partial class MainViewModel : ObservableObject
         IsRunning = !IsRunning;
         _timer.IsEnabled = IsRunning;
     }
-
     #endregion
 
     #endregion
@@ -272,14 +273,15 @@ public partial class MainViewModel : ObservableObject
     /// </summary>
     /// <returns></returns>
     private IEnumerable<ProcessFilter> GetProcessFilters() =>
-        ProcessesFilters
+        _filter ??= ProcessesFilters
             .Select(_ => new ProcessFilter(
                 _.Name,
                 _.AcceptInfo,
                 _.AcceptQuestion,
                 _.AcceptWarning,
                 _.AcceptError,
-                _.AcceptOther));
+                _.AcceptOther))
+            .ToArray();
     #endregion
 
     #region NotifyToggleClosingDialogsCommand
