@@ -7,7 +7,7 @@
                  xmlns:viewModels="clr-namespace:KillOk2.ViewModels"
                  xmlns:models="clr-namespace:KillOk2.Models"
                  mc:Ignorable="d"
-                 Title="Kill Ok 2" Height="450" Width="800"
+                 Title="Kill OK 2" Height="450" Width="800"
                  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
                  ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                  ExtendsContentIntoTitleBar="True"
@@ -63,7 +63,7 @@
 
                     <ui:TextBox
                         Grid.Column="0"
-                        PlaceholderText="Enter the search pattern"
+                        PlaceholderText="Enter the process name"
                         Text="{Binding NewProcessName, UpdateSourceTrigger=PropertyChanged}">
                         <ui:TextBox.InputBindings>
                             <KeyBinding
@@ -306,6 +306,11 @@
                                                     Command="{Binding PlacementTarget.Tag.RemoveDialogInfoCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                     CommandParameter="{Binding }"
                                                     Header="Remove from list"
+                                                    Icon="{ui:SymbolIcon ChannelDismiss16}" />
+                                                <Separator />
+                                                <MenuItem
+                                                    Command="{Binding PlacementTarget.Tag.ClearClosedDialogsCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                    Header="Clear list"
                                                     Icon="{ui:SymbolIcon Delete16}" />
                                             </ContextMenu>
                                             <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
@@ -350,6 +355,7 @@
                                                     Width="Auto" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
+
 
                                             <ui:SymbolIcon
                                                 Grid.Column="0"
@@ -418,7 +424,8 @@
                                             <ui:TextBlock
                                                 Grid.Column="1"
                                                 Text="{Binding Message}"
-                                                TextWrapping="Wrap" />
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center" />
                                         </Grid>
 
                                         <Separator

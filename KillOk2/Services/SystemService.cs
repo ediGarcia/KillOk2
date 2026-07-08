@@ -186,7 +186,7 @@ public class SystemService : ISystemService
                 int styleType = GetWindowLong(child, GwlStyle) & SsTypeMask;
                 if (styleType == SsIcon)
                 {
-                    IntPtr hIcon = SendMessage(child, StmGetImage, new IntPtr(ImageIcon), IntPtr.Zero);
+                    IntPtr hIcon = SendMessage(child, StmGetImage, new(ImageIcon), IntPtr.Zero);
 
                     if (hIcon == _hWarning)
                         type = DialogType.Warning;
@@ -214,7 +214,7 @@ public class SystemService : ISystemService
         StringBuilder title = new(512);
         GetWindowText(hWnd, title, 512);
 
-        return (type, title.ToString(), message.ToString());
+        return (type, title.ToString(), message.ToString().Trim());
     }
     #endregion
 
