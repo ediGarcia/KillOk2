@@ -40,6 +40,20 @@
                     Property="VerticalAlignment"
                     Value="Center" />
             </Style>
+
+            <!-- ReSharper disable once Xaml.StaticResourceNotResolved -->
+            <Style TargetType="ToggleButton"
+                   BasedOn="{StaticResource DefaultToggleButtonStyle}">
+                <Style.Triggers>
+                    <Trigger
+                        Property="IsChecked"
+                        Value="True">
+                        <Setter
+                            Property="Foreground"
+                            Value="{ui:ThemeResource TextFillColorInverseBrush}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
